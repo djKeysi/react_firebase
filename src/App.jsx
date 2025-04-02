@@ -8,14 +8,15 @@ import { DeleteTodos } from './function_for_bd/delete_todos';
 
 export const App = () => {
 	const [listValue, setListValue] = useState('');
+	const [listValueID, setListValueID] = useState('');
 
 	const { todos } = GetTodos();
 	const { inputValue, requestAddTodos, setInputValue } = AddTodos();
 
 	const { inputValueUpdate, setInputValueUpdate, requestUpdateTodos } =
-		UpdateTodos(listValue);
+		UpdateTodos(listValueID);
 
-	const { requestDeleteTodos } = DeleteTodos(listValue);
+	const { requestDeleteTodos } = DeleteTodos();
 	console.log(listValue);
 
 	useEffect(() => {
@@ -23,6 +24,25 @@ export const App = () => {
 			setListValue('');
 		}
 	}, [inputValueUpdate]);
+	// useEffect(() => {
+	// 	if (requestDeleteTodos) {
+	// 		setListValue('');
+	// 	}
+	// });
+	const liOnClick = (event, title, id) => {
+		//console.log(event);
+		if (event.screenX < 2606) {
+			//console.log(title);
+			setListValue(title);
+			setListValueID(id);
+			console.log(event.screenX);
+		} else if (listValue === '') {
+			setListValue('');
+		}
+		//() => setListValue(title)
+		// console.log(e.screenX); //2606
+		// console.log(e.screenY);//970
+	};
 
 	return (
 		<>
@@ -48,22 +68,24 @@ export const App = () => {
 					<ButtonFirebase onClick={requestUpdateTodos}>
 						Изменить дело
 					</ButtonFirebase>
-					{/* {listValue === '' ? (
-						<p style={{ color: 'red' }}>
-							Вы меняете {todos[listValue].title}
-						</p>
+					{listValue !== '' ? (
+						<p style={{ color: 'red' }}>Вы меняете {listValue}</p>
 					) : (
 						<p>Выберите дело</p>
-					)} */}
+					)}
 				</div>
 			)}
 			<div>
 				<ul>
 					{Object.entries(todos).map(([id, { title }]) => {
 						return (
-							<li onClick={() => setListValue(id)} key={id}>
+							<li onClick={(event) => liOnClick(event, title, id)} key={id}>
 								{title}
-								<ButtonFirebase onClick={() => requestDeleteTodos(id)}>
+								<ButtonFirebase
+									onClick={() => {
+										requestDeleteTodos(id);
+									}}
+								>
 									Удалить дело
 								</ButtonFirebase>
 							</li>

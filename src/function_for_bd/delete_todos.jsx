@@ -7,7 +7,7 @@ export const DeleteTodos = () => {
 	//const [listValue, setListValue] = useState('');
 
 	const requestDeleteTodos = (id) => {
-		console.log('dfsddsfs');
+		//console.log('dfsddsfs');
 
 		//	setisDeleting(true);
 		//if (listValue !== '') {
@@ -15,7 +15,7 @@ export const DeleteTodos = () => {
 		remove(todosDbRef).then((responce) => {
 			console.log('Дело было удалено,ответ сервера', responce);
 			//refreshProducts();
-			console.log(id);
+			//console.log(id);
 		});
 		//.finally(() => setisDeleting(false));
 		//}
