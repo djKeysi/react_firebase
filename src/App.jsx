@@ -5,19 +5,22 @@ import { GetTodos } from './function_for_bd/get_todos';
 import { UpdateTodos } from './function_for_bd/update_todos';
 import { InputFirebase } from './inputFirebase/inputFirebase';
 import { DeleteTodos } from './function_for_bd/delete_todos';
+// import { SortTodos } from './function_for_bd/sort_todos';
 
 export const App = () => {
 	const [listValue, setListValue] = useState('');
 	const [listValueID, setListValueID] = useState('');
 
-	const { todos } = GetTodos();
+	const { todos, requestSortTodos } = GetTodos();
 	const { inputValue, requestAddTodos, setInputValue } = AddTodos();
 
 	const { inputValueUpdate, setInputValueUpdate, requestUpdateTodos } =
 		UpdateTodos(listValueID);
 
 	const { requestDeleteTodos } = DeleteTodos();
-	console.log(listValue);
+
+	//const { requestSortTodos } = SortTodos();
+	console.log('todos', todos);
 
 	useEffect(() => {
 		if (inputValueUpdate === '') {
@@ -92,6 +95,8 @@ export const App = () => {
 						);
 					})}
 				</ul>
+
+				<ButtonFirebase onClick={requestSortTodos}>Сортировка дел</ButtonFirebase>
 			</div>
 		</>
 	);
